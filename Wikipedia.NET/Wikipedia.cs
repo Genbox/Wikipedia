@@ -24,6 +24,11 @@ namespace WikipediaNET
         }
 
         /// <summary>
+        /// Set to true to use HTTPS instead of HTTP.
+        /// </summary>
+        public bool UseTLS { get; set; }
+
+        /// <summary>
         /// What language to use.
         /// Default: English (en)
         /// </summary>
@@ -93,7 +98,7 @@ namespace WikipediaNET
         public QueryResult Search(string query)
         {
             //API example: http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=wikipedia&srprop=timestamp
-            _client.BaseUrl = string.Format("http://{0}.wikipedia.org/w/", Language.GetStringValue());
+            _client.BaseUrl = string.Format(UseTLS ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", Language.GetStringValue());
 
             RestRequest request = new RestRequest("api.php", Method.GET);
 
@@ -157,11 +162,8 @@ namespace WikipediaNET
             //For convinience, we autocreate Uris that point directly to the wiki page.
             foreach (Search search in results.Search)
             {
-                search.Url = new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
+                search.Url = UseTLS ? new Uri("https://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title) : new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
             }
-
-            if (results.Search != null)
-                results.RawResponse = response.Content;
 
             return results;
         }

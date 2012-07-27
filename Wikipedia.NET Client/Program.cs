@@ -11,6 +11,9 @@ namespace WikipediaNETClient
         {
             //Default language is English
             Wikipedia wikipedia = new Wikipedia();
+            
+            //Use HTTPS instead of HTTP
+            wikipedia.UseTLS = true;
 
             //We would like 5 results
             wikipedia.Limit = 5;

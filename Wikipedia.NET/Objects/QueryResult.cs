@@ -5,8 +5,6 @@ namespace WikipediaNET.Objects
 {
     public class QueryResult
     {
-        public string RawResponse { get; set; }
-
         [DeserializeAs(Name = "searchinfo")]
         public SearchInfo SearchInfo { get; set; }
 
