@@ -18,8 +18,10 @@ namespace WikipediaNETClient
             //We would like to search inside the articles
             wikipedia.What = What.Text;
 
-            QueryResult results = wikipedia.Search("Microsoft C#");
+            const string searchText = "Microsoft C#";
+            QueryResult results = wikipedia.Search(searchText);
 
+            Console.WriteLine("Searching for {0}:{1}", searchText, Environment.NewLine);
             Console.WriteLine("Found " + results.Search.Count + " English results:");
 
             foreach (Search s in results.Search)
@@ -32,7 +34,7 @@ namespace WikipediaNETClient
 
             //We change the language to Spanish
             wikipedia.Language = Language.Spanish;
-            
+
             results = wikipedia.Search("Microsoft C#");
 
             Console.WriteLine("Found " + results.Search.Count + " Spanish results:");

@@ -42,10 +42,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Misc\ExtensionMethods.cs" />
     <Compile Include="Enums\Format.cs" />
     <Compile Include="Enums\Info.cs" />
     <Compile Include="Enums\Language.cs" />
@@ -55,7 +54,7 @@
     <Compile Include="Objects\SearchInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Enums\Property.cs" />
-    <Compile Include="StringValueAttribute.cs" />
+    <Compile Include="Misc\StringValueAttribute.cs" />
     <Compile Include="Enums\What.cs" />
     <Compile Include="Wikipedia.cs" />
   </ItemGroup>

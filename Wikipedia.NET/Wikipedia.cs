@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RestSharp;
 using RestSharp.Deserializers;
 using WikipediaNET.Enums;
+using WikipediaNET.Misc;
 using WikipediaNET.Objects;
 
 namespace WikipediaNET
@@ -30,7 +31,7 @@ namespace WikipediaNET
 
         /// <summary>
         /// Gets or sets the format to use.
-        /// Note: This currently defaults only to XML - once RestSharp gets DeserializeAs attributes for JSON, I will support json as well.
+        /// Note: This currently defaults only to XML - once RestSharp gets DeserializeAs attributes for JSON, I will implement support for JSON as well.
         /// </summary>
         public Format Format
         {
@@ -66,7 +67,6 @@ namespace WikipediaNET
         /// <summary>
         /// What propery to include in the results.
         /// Defaults to a combination of snippet, size, wordcount and timestamp
-        /// </summary>
         /// </summary>
         public List<Property> Properties { get; set; }
 
@@ -136,10 +136,18 @@ namespace WikipediaNET
 
             IDeserializer deserializer;
 
-            if (Format == Format.XML)
-                deserializer = new XmlAttributeDeserializer();
-            else
-                deserializer = new JsonDeserializer();
+            switch (Format)
+            {
+                case Format.XML:
+                    deserializer = new XmlAttributeDeserializer();
+                    break;
+                case Format.JSON:
+                    deserializer = new JsonDeserializer();
+                    break;
+                default:
+                    deserializer = new XmlAttributeDeserializer();
+                    break;
+            }
 
             //The format that Wikipedia uses
             deserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
@@ -152,7 +160,7 @@ namespace WikipediaNET
                 search.Url = new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
             }
 
-            if (results != null)
+            if (results.Search != null)
                 results.RawResponse = response.Content;
 
             return results;

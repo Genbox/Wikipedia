@@ -1,3 +1,5 @@
+using WikipediaNET.Misc;
+
 namespace WikipediaNET.Enums
 {
     /// <summary>
@@ -8,7 +10,7 @@ namespace WikipediaNET.Enums
     {
         [StringValue("en")]
         English,
-        [StringValue("de(")]
+        [StringValue("de")]
         German,
         [StringValue("fr")]
         French,
@@ -37,7 +39,7 @@ namespace WikipediaNET.Enums
         [StringValue("ca")]
         Catalan,
         [StringValue("no")]
-        Norwegian_Bokmål,
+        NorwegianBokmål,
         [StringValue("fi")]
         Finnish,
         [StringValue("cs")]
@@ -70,7 +72,7 @@ namespace WikipediaNET.Enums
         Malay,
         [StringValue("kk")]
         Kazakh,
-        [StringValue("he(")]
+        [StringValue("he")]
         Hebrew,
         [StringValue("eu")]
         Basque,
@@ -83,7 +85,7 @@ namespace WikipediaNET.Enums
         [StringValue("hr")]
         Croatian,
         [StringValue("war")]
-        Waray_Waray,
+        WarayWaray,
         [StringValue("hi")]
         Hindi,
         [StringValue("et")]
@@ -93,8 +95,8 @@ namespace WikipediaNET.Enums
         [StringValue("gl")]
         Galician,
         [StringValue("nn")]
-        Norwegian_Nynorsk,
-        [StringValue("simple(")]
+        NorwegianNynorsk,
+        [StringValue("simple")]
         SimpleEnglish,
         [StringValue("la")]
         Latin,
@@ -103,9 +105,9 @@ namespace WikipediaNET.Enums
         [StringValue("th")]
         Thai,
         [StringValue("new")]
-        Newar_NepalBhasa,
+        NewarNepalBhasa,
         [StringValue("sh")]
-        Serbo_Croatian,
+        SerboCroatian,
         [StringValue("roa-rup")]
         Aromanian,
         [StringValue("oc")]
@@ -125,7 +127,7 @@ namespace WikipediaNET.Enums
         [StringValue("ta")]
         Tamil,
         [StringValue("be-x-old")]
-        Belarusian_Taraškievica,
+        BelarusianTaraškievica,
         [StringValue("be(")]
         Belarusian,
         [StringValue("br")]
@@ -178,9 +180,9 @@ namespace WikipediaNET.Enums
         Gujarati,
         [StringValue("uz")]
         Uzbek,
-        [StringValue("zh-yue(")]
+        [StringValue("zh-yue")]
         Cantonese,
-        [StringValue("ne(")]
+        [StringValue("ne")]
         Nepali,
         [StringValue("nds")]
         LowSaxon,
@@ -283,12 +285,12 @@ namespace WikipediaNET.Enums
         [StringValue("bar")]
         Bavarian,
         [StringValue("bcl")]
-        Central_Bicolano,
+        CentralBicolano,
         [StringValue("ilo")]
         Ilokano,
         [StringValue("mrj")]
         HillMari,
-        [StringValue("se(")]
+        [StringValue("se")]
         NorthernSami,
         [StringValue("fiu-vro")]
         Võro,
@@ -302,7 +304,7 @@ namespace WikipediaNET.Enums
         Pashto,
         [StringValue("gv")]
         Manx,
-        [StringValue("rue(")]
+        [StringValue("rue")]
         Rusyn,
         [StringValue("dv")]
         Divehi,
@@ -313,7 +315,7 @@ namespace WikipediaNET.Enums
         [StringValue("pa")]
         Punjabi,
         [StringValue("koi")]
-        Komi_Permyak,
+        KomiPermyak,
         [StringValue("rm")]
         Romansh,
         [StringValue("km")]
@@ -359,7 +361,7 @@ namespace WikipediaNET.Enums
         [StringValue("frr")]
         NorthFrisian,
         [StringValue("ang")]
-        Anglo_Saxon,
+        AngloSaxon,
         [StringValue("so")]
         Somali,
         [StringValue("kw")]
@@ -373,7 +375,7 @@ namespace WikipediaNET.Enums
         [StringValue("ay")]
         Aymara,
         [StringValue("frp")]
-        Franco_Provençal_Arpitan,
+        FrancoProvençalArpitan,
         [StringValue("ext")]
         Extremaduran,
         [StringValue("szl")]
@@ -382,7 +384,7 @@ namespace WikipediaNET.Enums
         Picard,
         [StringValue("gag")]
         Gagauz,
-        [StringValue("ie(")]
+        [StringValue("ie")]
         Interlingue,
         [StringValue("ln")]
         Lingala,
@@ -399,23 +401,23 @@ namespace WikipediaNET.Enums
         [StringValue("pfl")]
         PalatinateGerman,
         [StringValue("krc")]
-        Karachay_Balkar,
+        KarachayBalkar,
         [StringValue("eml")]
-        Emilian_Romagnol,
+        EmilianRomagnol,
         [StringValue("crh")]
         CrimeanTatar,
         [StringValue("gn")]
         Guarani,
-        [StringValue("ace(")]
+        [StringValue("ace")]
         Acehnese,
         [StringValue("to")]
         Tongan,
-        [StringValue("ce(")]
+        [StringValue("ce")]
         Chechen,
         [StringValue("kl")]
         Greenlandic,
         [StringValue("arc")]
-        AssyrianNeo_Aramaic,
+        AssyrianNeoAramaic,
         [StringValue("myv")]
         Erzya,
         [StringValue("dsb")]
@@ -428,7 +430,7 @@ namespace WikipediaNET.Enums
         Papiamentu,
         [StringValue("tpi")]
         TokPisin,
-        [StringValue("lbe(")]
+        [StringValue("lbe")]
         Lak,
         [StringValue("mdf")]
         Moksha,
@@ -510,14 +512,14 @@ namespace WikipediaNET.Enums
         Pontic,
         [StringValue("cdo")]
         MinDong,
-        [StringValue("ee(")]
+        [StringValue("ee")]
         Ewe,
         [StringValue("ha")]
         Hausa,
         [StringValue("ti")]
         Tigrinya,
         [StringValue("bxr")]
-        Buryat_Russia,
+        BuryatRussia,
         [StringValue("ts")]
         Tsonga,
         [StringValue("om")]

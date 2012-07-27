@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace WikipediaNET
+namespace WikipediaNET.Misc
 {
     public static class ExtensionMethods
     {
