@@ -160,9 +160,12 @@ namespace WikipediaNET
             QueryResult results = deserializer.Deserialize<QueryResult>(response);
 
             //For convinience, we autocreate Uris that point directly to the wiki page.
-            foreach (Search search in results.Search)
+            if (results.Search != null)
             {
-                search.Url = UseTLS ? new Uri("https://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title) : new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
+                foreach (Search search in results.Search)
+                {
+                    search.Url = UseTLS ? new Uri("https://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title) : new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
+                }
             }
 
             return results;
