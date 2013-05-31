@@ -157,6 +157,8 @@ namespace WikipediaNET
             //The format that Wikipedia uses
             deserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 
+            deserializer.RootElement = "query";
+
             QueryResult results = deserializer.Deserialize<QueryResult>(response);
 
             //For convinience, we autocreate Uris that point directly to the wiki page.
