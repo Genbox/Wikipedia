@@ -1,17 +1,16 @@
 ﻿using System;
-using WikipediaNET;
 using WikipediaNET.Enums;
 using WikipediaNET.Objects;
 
-namespace WikipediaNETClient
+namespace WikipediaNET.Client
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //Default language is English
             Wikipedia wikipedia = new Wikipedia();
-            
+
             //Use HTTPS instead of HTTP
             wikipedia.UseTLS = true;
 

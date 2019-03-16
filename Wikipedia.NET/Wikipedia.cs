@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using RestSharp;
 using RestSharp.Deserializers;
+using RestSharp.Serialization.Json;
+using RestSharp.Serialization.Xml;
 using WikipediaNET.Enums;
 using WikipediaNET.Misc;
 using WikipediaNET.Objects;
@@ -10,7 +12,7 @@ namespace WikipediaNET
 {
     public class Wikipedia
     {
-        private static RestClient _client = new RestClient();
+        private static readonly RestClient _client = new RestClient();
         private Format _format;
 
         public Wikipedia(Language language = Language.English)
@@ -40,8 +42,8 @@ namespace WikipediaNET
         /// </summary>
         public Format Format
         {
-            get { return _format; }
-            private set { _format = value == Format.Default ? Format.XML : value; }
+            get => _format;
+            private set => _format = value == Format.Default ? Format.XML : value;
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace WikipediaNET
 
         /// <summary>
         /// What propery to include in the results.
-        /// Defaults to a combination of snippet, size, wordcount and timestamp
+        /// Defaults to a combination of snippet, size, word count and timestamp
         /// </summary>
         public List<Property> Properties { get; set; }
 
@@ -98,7 +100,7 @@ namespace WikipediaNET
         public QueryResult Search(string query)
         {
             //API example: http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=wikipedia&srprop=timestamp
-            _client.BaseUrl = string.Format(UseTLS ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", Language.GetStringValue());
+            _client.BaseUrl = new Uri(string.Format(UseTLS ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", Language.GetStringValue()));
 
             RestRequest request = new RestRequest("api.php", Method.GET);
 
@@ -143,21 +145,30 @@ namespace WikipediaNET
 
             switch (Format)
             {
-                case Format.XML:
-                    deserializer = new XmlAttributeDeserializer();
-                    break;
                 case Format.JSON:
-                    deserializer = new JsonDeserializer();
+                    JsonDeserializer jsonDeserializer = new JsonDeserializer();
+
+                    //The format that Wikipedia uses
+                    jsonDeserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+                    jsonDeserializer.RootElement = "query";
+
+                    deserializer = jsonDeserializer;
                     break;
                 default:
-                    deserializer = new XmlAttributeDeserializer();
+                    XmlAttributeDeserializer xmlDeserializer = new XmlAttributeDeserializer();
+
+                    //The format that Wikipedia uses
+                    xmlDeserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+                    xmlDeserializer.RootElement = "query";
+
+                    deserializer = xmlDeserializer;
                     break;
             }
 
             //The format that Wikipedia uses
-            deserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+            //deserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 
-            deserializer.RootElement = "query";
+            //deserializer.RootElement = "query";
 
             QueryResult results = deserializer.Deserialize<QueryResult>(response);
 
