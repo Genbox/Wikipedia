@@ -45,9 +45,6 @@ namespace WikipediaNet.Examples
             {
                 Console.WriteLine(s.Title);
             }
-
-            Console.WriteLine("Press a key to continue");
-            Console.ReadLine();
         }
     }
 }

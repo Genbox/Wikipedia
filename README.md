@@ -1,5 +1,7 @@
 # Wikipedia.NET - An implementation of the full text search API of Wikipedia
 
+[![NuGet](https://img.shields.io/nuget/v/WikipediaNet.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/WikipediaNet/)
+
 ### Features
 
 * Based on RestSharp (http://restsharp.org) to deserialize the Wikipedia XML into objects
