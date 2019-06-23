@@ -3,12 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>WikipediaNET.Client</RootNamespace>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Wikipedia.NET\Wikipedia.NET.csproj" />
+    <ProjectReference Include="..\WikipediaNet\WikipediaNet.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 ﻿using System;
-using WikipediaNET.Enums;
-using WikipediaNET.Objects;
+using WikipediaNet.Enums;
+using WikipediaNet.Objects;
 
-namespace WikipediaNET.Client
+namespace WikipediaNet.Examples
 {
     internal class Program
     {

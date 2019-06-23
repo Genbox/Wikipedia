@@ -1,6 +1,6 @@
 using System;
 
-namespace WikipediaNET.Misc
+namespace WikipediaNet.Misc
 {
     /// <summary>
     /// This attribute is used to represent a string value

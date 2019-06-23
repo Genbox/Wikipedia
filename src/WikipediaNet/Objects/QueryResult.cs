@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using RestSharp.Deserializers;
 
-namespace WikipediaNET.Objects
+namespace WikipediaNet.Objects
 {
     public class QueryResult
     {

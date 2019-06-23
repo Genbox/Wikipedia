@@ -4,11 +4,11 @@ using RestSharp;
 using RestSharp.Deserializers;
 using RestSharp.Serialization.Json;
 using RestSharp.Serialization.Xml;
-using WikipediaNET.Enums;
-using WikipediaNET.Misc;
-using WikipediaNET.Objects;
+using WikipediaNet.Enums;
+using WikipediaNet.Misc;
+using WikipediaNet.Objects;
 
-namespace WikipediaNET
+namespace WikipediaNet
 {
     public class Wikipedia
     {

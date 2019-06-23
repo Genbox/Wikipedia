@@ -1,6 +1,6 @@
-using WikipediaNET.Misc;
+using WikipediaNet.Misc;
 
-namespace WikipediaNET.Enums
+namespace WikipediaNet.Enums
 {
     /// <summary>
     /// Alle the supported languages from Wikipedia.

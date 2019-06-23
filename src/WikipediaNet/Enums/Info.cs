@@ -1,4 +1,4 @@
-namespace WikipediaNET.Enums
+namespace WikipediaNet.Enums
 {
     public enum Info
     {
