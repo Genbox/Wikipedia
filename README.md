@@ -36,4 +36,4 @@ http://en.wikipedia.org/wiki/C Sharp (programming language)
 http://en.wikipedia.org/wiki/Microsoft Visual Studio
 ```
 
-For more examples, take a look at the Wikipedia.NET Client included in the project.
+For more examples, take a look at the Wikipedia.Examples included in the project.
