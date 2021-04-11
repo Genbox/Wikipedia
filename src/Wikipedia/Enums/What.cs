@@ -1,4 +1,4 @@
-namespace WikipediaNet.Enums
+namespace Genbox.Wikipedia.Enums
 {
     public enum What
     {

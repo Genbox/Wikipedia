@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Properties.targets" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WikipediaNet\WikipediaNet.csproj" />
+    <ProjectReference Include="..\Wikipedia\Wikipedia.csproj" />
   </ItemGroup>
 
 </Project>

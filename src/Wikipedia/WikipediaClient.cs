@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Genbox.Wikipedia.Enums;
+using Genbox.Wikipedia.Misc;
+using Genbox.Wikipedia.Objects;
 using RestSharp;
 using RestSharp.Deserializers;
 using RestSharp.Serialization.Json;
 using RestSharp.Serialization.Xml;
-using WikipediaNet.Enums;
-using WikipediaNet.Misc;
-using WikipediaNet.Objects;
 
-namespace WikipediaNet
+namespace Genbox.Wikipedia
 {
-    public class Wikipedia
+    public class WikipediaClient
     {
-        private static readonly RestClient _client = new RestClient();
+        private readonly RestClient _client = new RestClient();
+        private readonly Lazy<JsonDeserializer> _jsonSerializer = new Lazy<JsonDeserializer>();
+        private readonly Lazy<XmlAttributeDeserializer> _xmlSerializer = new Lazy<XmlAttributeDeserializer>();
         private Format _format;
+        private const string _dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 
-        public Wikipedia(Language language = Language.English)
+        public WikipediaClient(Language language = Language.English)
         {
             Language = language;
             Format = Format.XML;
@@ -28,7 +33,7 @@ namespace WikipediaNet
         /// <summary>
         /// Set to true to use HTTPS instead of HTTP.
         /// </summary>
-        public bool UseTLS { get; set; }
+        public bool UseTls { get; set; }
 
         /// <summary>
         /// What language to use.
@@ -95,12 +100,12 @@ namespace WikipediaNet
         /// <summary>
         /// Request ID to distinguish requests. This will just be output back to you.
         /// </summary>
-        public string RequestID { get; set; }
+        public string? RequestId { get; set; }
 
-        public QueryResult Search(string query)
+        private RestRequest CreateRequest(string query)
         {
             //API example: http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=wikipedia&srprop=timestamp
-            _client.BaseUrl = new Uri(string.Format(UseTLS ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", Language.GetStringValue()));
+            _client.BaseUrl = new Uri(string.Format(UseTls ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", Language.GetStringValue()));
 
             RestRequest request = new RestRequest("api.php", Method.GET);
 
@@ -135,49 +140,58 @@ namespace WikipediaNet
             if (ServedBy)
                 request.AddParameter("servedby", ServedBy.ToString().ToLower());
 
-            if (!string.IsNullOrEmpty(RequestID))
-                request.AddParameter("requestid", RequestID);
+            if (!string.IsNullOrEmpty(RequestId))
+                request.AddParameter("requestid", RequestId);
 
-            //Output
-            RestResponse response = (RestResponse)_client.Execute(request);
+            return request;
+        }
 
+        public QueryResult Search(string query)
+        {
+            RestRequest request = CreateRequest(query);
+            IRestResponse response = _client.Execute(request);
+            return Deserialize(response);
+
+        }
+
+        public async Task<QueryResult> SearchAsync(string query, CancellationToken token = default)
+        {
+            RestRequest request = CreateRequest(query);
+            IRestResponse response = await _client.ExecuteAsync(request, token).ConfigureAwait(false);
+            return Deserialize(response);
+        }
+
+        private QueryResult Deserialize(IRestResponse response)
+        {
             IDeserializer deserializer;
 
             switch (Format)
             {
                 case Format.JSON:
-                    JsonDeserializer jsonDeserializer = new JsonDeserializer();
+                    JsonDeserializer jsonDeserializer = _jsonSerializer.Value;
 
-                    //The format that Wikipedia uses
-                    jsonDeserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+                    jsonDeserializer.DateFormat = _dateFormat;
                     jsonDeserializer.RootElement = "query";
 
                     deserializer = jsonDeserializer;
                     break;
                 default:
-                    XmlAttributeDeserializer xmlDeserializer = new XmlAttributeDeserializer();
-
-                    //The format that Wikipedia uses
-                    xmlDeserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+                    XmlAttributeDeserializer xmlDeserializer = _xmlSerializer.Value;
+                    xmlDeserializer.DateFormat = _dateFormat;
                     xmlDeserializer.RootElement = "query";
 
                     deserializer = xmlDeserializer;
                     break;
             }
 
-            //The format that Wikipedia uses
-            //deserializer.DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
-
-            //deserializer.RootElement = "query";
-
             QueryResult results = deserializer.Deserialize<QueryResult>(response);
 
-            //For convinience, we autocreate Uris that point directly to the wiki page.
+            //For convenience, we autocreate uris that point directly to the wiki page.
             if (results.Search != null)
             {
                 foreach (Search search in results.Search)
                 {
-                    search.Url = UseTLS ? new Uri("https://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title) : new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
+                    search.Url = UseTls ? new Uri("https://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title) : new Uri("http://" + Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
                 }
             }
 

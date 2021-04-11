@@ -1,6 +1,6 @@
 using RestSharp.Deserializers;
 
-namespace WikipediaNet.Objects
+namespace Genbox.Wikipedia.Objects
 {
     public class SearchInfo
     {

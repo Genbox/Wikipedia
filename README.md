@@ -1,6 +1,6 @@
-# Wikipedia.NET - An implementation of the full text search API of Wikipedia
+# Genbox.Wikipedia - An implementation of the full text search API of Wikipedia
 
-[![NuGet](https://img.shields.io/nuget/v/WikipediaNet.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/WikipediaNet/)
+[![NuGet](https://img.shields.io/nuget/v/Genbox.Wikipedia.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/Genbox.Wikipedia/)
 
 ### Features
 
@@ -13,10 +13,10 @@
 Here is the simplest form of getting data from Wikipedia:
 
 ```csharp
-static void Main(string[] args)
+static void Main()
 {
-	Wikipedia wikipedia = new Wikipedia();
-	wikipedia.Limit = 5;
+	WikipediaClient client = new WikipediaClient();
+	client.Limit = 5;
 	
 	QueryResult results = wikipedia.Search("Microsoft C#");
 
@@ -37,5 +37,3 @@ http://en.wikipedia.org/wiki/Microsoft Roslyn
 http://en.wikipedia.org/wiki/C Sharp (programming language)
 http://en.wikipedia.org/wiki/Microsoft Visual Studio
 ```
-
-For more examples, take a look at the Wikipedia.Examples included in the project.

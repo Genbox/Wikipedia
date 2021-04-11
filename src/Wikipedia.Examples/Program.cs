@@ -1,27 +1,28 @@
 ﻿using System;
-using WikipediaNet.Enums;
-using WikipediaNet.Objects;
+using System.Threading.Tasks;
+using Genbox.Wikipedia.Enums;
+using Genbox.Wikipedia.Objects;
 
-namespace WikipediaNet.Examples
+namespace Genbox.Wikipedia.Examples
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main()
         {
             //Default language is English
-            Wikipedia wikipedia = new Wikipedia();
+            WikipediaClient client = new WikipediaClient();
 
             //Use HTTPS instead of HTTP
-            wikipedia.UseTLS = true;
+            client.UseTls = true;
 
             //We would like 5 results
-            wikipedia.Limit = 5;
+            client.Limit = 5;
 
             //We would like to search inside the articles
-            wikipedia.What = What.Text;
+            client.What = What.Text;
 
             const string searchText = "Microsoft C#";
-            QueryResult results = wikipedia.Search(searchText);
+            QueryResult results = await client.SearchAsync(searchText);
 
             Console.WriteLine("Searching for {0}:{1}", searchText, Environment.NewLine);
             Console.WriteLine("Found " + results.Search.Count + " English results:");
@@ -35,9 +36,9 @@ namespace WikipediaNet.Examples
             Console.WriteLine();
 
             //We change the language to Spanish
-            wikipedia.Language = Language.Spanish;
+            client.Language = Language.Spanish;
 
-            results = wikipedia.Search("Microsoft C#");
+            results = client.Search("Microsoft C#");
 
             Console.WriteLine("Found " + results.Search.Count + " Spanish results:");
 

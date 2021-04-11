@@ -1,6 +1,6 @@
 using System;
 
-namespace WikipediaNet.Misc
+namespace Genbox.Wikipedia.Misc
 {
     /// <summary>
     /// This attribute is used to represent a string value
@@ -11,7 +11,7 @@ namespace WikipediaNet.Misc
         /// <summary>
         /// Holds the stringvalue for a value in an enum.
         /// </summary>
-        public string StringValue { get; protected set; }
+        public string StringValue { get; }
 
 
         /// <summary>

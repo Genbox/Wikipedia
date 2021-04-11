@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
-namespace WikipediaNet.Misc
+namespace Genbox.Wikipedia.Misc
 {
     public static class ExtensionMethods
     {
-        public static bool HasElements<T>(this List<T> list)
+        public static bool HasElements<T>(this List<T>? list)
         {
-            return (list != null && list.Count >= 1);
+            return list != null && list.Count >= 1;
         }
 
         /// <summary>
@@ -18,8 +19,7 @@ namespace WikipediaNet.Misc
         /// Source: http://weblogs.asp.net/stefansedich/archive/2008/03/12/enum-with-string-values-in-c.aspx
         /// </summary>
         /// <param name="value"></param>
-        /// <returns></returns>
-        public static string GetStringValue(this Enum value)
+        public static string? GetStringValue(this Enum value)
         {
             // Get the type
             Type type = value.GetType();
@@ -28,11 +28,10 @@ namespace WikipediaNet.Misc
             FieldInfo fieldInfo = type.GetField(value.ToString());
 
             // Get the stringvalue attributes
-            StringValueAttribute[] attribs = fieldInfo.GetCustomAttributes(
-                typeof(StringValueAttribute), false) as StringValueAttribute[];
+            StringValueAttribute[] attr = fieldInfo.GetCustomAttributes<StringValueAttribute>(false).ToArray();
 
             // Return the first if there was a match.
-            return attribs.Length > 0 ? attribs[0].StringValue : null;
+            return attr.Length > 0 ? attr[0].StringValue : null;
         }
     }
 }
