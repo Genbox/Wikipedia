@@ -1,4 +1,4 @@
-using Genbox.Wikipedia.Misc;
+ï»¿using Genbox.Wikipedia.Misc;
 
 namespace Genbox.Wikipedia.Enums
 {
@@ -39,7 +39,7 @@ namespace Genbox.Wikipedia.Enums
         [StringValue("ca")]
         Catalan,
         [StringValue("no")]
-        NorwegianBokmål,
+        NorwegianBokmÃ¥l,
         [StringValue("fi")]
         Finnish,
         [StringValue("cs")]
@@ -81,7 +81,7 @@ namespace Genbox.Wikipedia.Enums
         [StringValue("sl")]
         Slovenian,
         [StringValue("vo")]
-        Volapük,
+        VolapÃ¼k,
         [StringValue("hr")]
         Croatian,
         [StringValue("war")]
@@ -127,7 +127,7 @@ namespace Genbox.Wikipedia.Enums
         [StringValue("ta")]
         Tamil,
         [StringValue("be-x-old")]
-        BelarusianTaraškievica,
+        BelarusianTaraÅ¡kievica,
         [StringValue("be(")]
         Belarusian,
         [StringValue("br")]
@@ -293,7 +293,7 @@ namespace Genbox.Wikipedia.Enums
         [StringValue("se")]
         NorthernSami,
         [StringValue("fiu-vro")]
-        Võro,
+        VÃµro,
         [StringValue("nds-nl")]
         DutchLowSaxon,
         [StringValue("tk")]
@@ -375,7 +375,7 @@ namespace Genbox.Wikipedia.Enums
         [StringValue("ay")]
         Aymara,
         [StringValue("frp")]
-        FrancoProvençalArpitan,
+        FrancoProvenÃ§alArpitan,
         [StringValue("ext")]
         Extremaduran,
         [StringValue("szl")]
