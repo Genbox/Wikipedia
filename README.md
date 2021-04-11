@@ -1,4 +1,4 @@
-# Genbox.Wikipedia - An implementation of the full text search API of Wikipedia
+# Wikipedia - An implementation of the full text search API of Wikipedia
 
 [![NuGet](https://img.shields.io/nuget/v/Genbox.Wikipedia.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/Genbox.Wikipedia/)
 
