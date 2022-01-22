@@ -4,28 +4,27 @@
 
 ### Features
 
-* Based on RestSharp (http://restsharp.org) to deserialize the Wikipedia XML into objects
 * Support for all 283 languages on Wikipedia
 * Full support for all search parameters
 
-### Examples
+### Example
 
 Here is the simplest form of getting data from Wikipedia:
 
 ```csharp
 static void Main()
 {
-	WikipediaClient client = new WikipediaClient();
-	client.Limit = 5;
-	
-	QueryResult results = wikipedia.Search("Microsoft C#");
+    WikipediaClient client = new WikipediaClient();
 
-	Console.WriteLine("Found " + results.Search.Count + " English results:");
+    //We would like to search inside articles
+    client.What = What.Text;
 
-	foreach (Search s in results.Search)
-	{
-		Console.WriteLine(s.Url);
-	}
+    QueryResult results = await client.SearchAsync("Microsoft C#");
+
+    foreach (Search result in results.Search)
+    {
+        Console.WriteLine(result.Title);
+    }
 }
 ```
 
