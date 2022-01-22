@@ -19,6 +19,7 @@
 
     <!--C# settings-->
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
 
     <!--.NET settings-->
     <ImplicitUsings>true</ImplicitUsings>
