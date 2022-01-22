@@ -1,55 +1,36 @@
-using System;
-using RestSharp.Deserializers;
+namespace Genbox.Wikipedia.Objects;
 
-namespace Genbox.Wikipedia.Objects
+public class Search
 {
-    public class Search
-    {
-        [DeserializeAs(Name = "ns")]
-        public int NS { get; set; }
+    public int NS { get; set; }
 
-        [DeserializeAs(Name = "title")]
-        public string Title { get; set; }
+    public string? Title { get; set; }
 
-        [DeserializeAs(Name = "snippet")]
-        public string Snippet { get; set; }
+    public string? Snippet { get; set; }
 
-        [DeserializeAs(Name = "titlesnippet")]
-        public string TitleSnippet { get; set; }
+    public string? TitleSnippet { get; set; }
 
-        [DeserializeAs(Name = "redirecttitle")]
-        public string RedirectTitle { get; set; }
+    public string? RedirectTitle { get; set; }
 
-        [DeserializeAs(Name = "redirectsnippet")]
-        public string RedirectSnippet { get; set; }
+    public string? RedirectSnippet { get; set; }
 
-        [DeserializeAs(Name = "sectiontitle")]
-        public string SectionTitle { get; set; }
+    public string? SectionTitle { get; set; }
 
-        [DeserializeAs(Name = "sectionsnippet")]
-        public string SectionSnippet { get; set; }
+    public string? SectionSnippet { get; set; }
 
-        [DeserializeAs(Name = "size")]
-        public int Size { get; set; }
+    public int Size { get; set; }
 
-        [DeserializeAs(Name = "wordcount")]
-        public int WordCount { get; set; }
+    public int WordCount { get; set; }
 
-        [DeserializeAs(Name = "timestamp")]
-        public DateTime TimeStamp { get; set; }
+    public DateTime TimeStamp { get; set; }
 
-        //TODO: Not tested - type not determined
-        [DeserializeAs(Name = "score")]
-        public string Score { get; set; }
+    //TODO: Not tested - type not determined
+    public string? Score { get; set; }
 
-        //TODO: Acutally not tested - type not determined
-        [DeserializeAs(Name = "hasrelated")]
-        public string HasRelated { get; set; }
+    //TODO: Acutally not tested - type not determined
+    public string? HasRelated { get; set; }
 
-        /// <summary>
-        /// The URI that points to the wikipedia page that contains the title.
-        /// Note: Normalization of the title occurs automatically.
-        /// </summary>
-        public Uri Url { get; set; }
-    }
+    /// <summary>The URI that points to the wikipedia page that contains the title. Note: Normalization of the title occurs
+    /// automatically.</summary>
+    public Uri Url { get; set; } = null!;
 }

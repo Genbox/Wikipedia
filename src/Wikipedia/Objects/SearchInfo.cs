@@ -1,13 +1,8 @@
-using RestSharp.Deserializers;
+namespace Genbox.Wikipedia.Objects;
 
-namespace Genbox.Wikipedia.Objects
+public class SearchInfo
 {
-    public class SearchInfo
-    {
-        [DeserializeAs(Name = "totalhits")]
-        public int TotalHits { get; set; }
+    public int TotalHits { get; set; } = 0;
 
-        [DeserializeAs(Name = "suggestion")]
-        public string Suggestion { get; set; }
-    }
+    public string? Suggestion { get; set; }
 }

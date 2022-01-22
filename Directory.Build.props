@@ -52,7 +52,7 @@
 
   <!--Default packages-->
   <ItemGroup>
-    <PackageReference Include="MinVer" Version="2.5.0" PrivateAssets="all"/>
+    <PackageReference Include="MinVer" Version="2.5.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
   </ItemGroup>
 
@@ -88,7 +88,7 @@
   </PropertyGroup>
 
   <!--MinVer versioning-->
-  <Target Name="ModifyAssemblyVersion" AfterTargets="MinVer" >
+  <Target Name="ModifyAssemblyVersion" AfterTargets="MinVer">
     <PropertyGroup>
       <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).0</AssemblyVersion>
     </PropertyGroup>

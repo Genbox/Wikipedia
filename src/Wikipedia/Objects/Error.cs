@@ -1,13 +1,8 @@
-using RestSharp.Deserializers;
+namespace Genbox.Wikipedia.Objects;
 
-namespace Genbox.Wikipedia.Objects
+public class Error
 {
-    public class Error
-    {
-        [DeserializeAs(Name = "code")]
-        public string? Code { get; set; }
+    public string? Code { get; set; }
 
-        [DeserializeAs(Name = "info")]
-        public string? Info { get; set; }
-    }
+    public string? Info { get; set; }
 }
