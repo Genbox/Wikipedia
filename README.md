@@ -15,7 +15,7 @@
 Here is the simplest way of getting data from Wikipedia:
 
 ```csharp
-static void Main()
+static async Task Main()
 {
     using WikipediaClient client = new WikipediaClient();
     
