@@ -17,17 +17,17 @@ Here is the simplest way of getting data from Wikipedia:
 ```csharp
 static void Main()
 {
-	using WikipediaClient client = new WikipediaClient();
-
-	WikiSearchRequest req = new WikiSearchRequest("Albert Einstein");
-	req.Limit = 5; //We would like 5 results
-
-	WikiSearchResponse resp = await client.SearchAsync(req);
-
-	foreach (SearchResult s in resp.QueryResult.SearchResults)
-	{
-		Console.WriteLine($" - {s.Title}");
-	}
+    using WikipediaClient client = new WikipediaClient();
+    
+    WikiSearchRequest req = new WikiSearchRequest("Albert Einstein");
+    req.Limit = 5; //We would like 5 results
+    
+    WikiSearchResponse resp = await client.SearchAsync(req);
+    
+    foreach (SearchResult s in resp.QueryResult.SearchResults)
+    {
+        Console.WriteLine($" - {s.Title}");
+    }
 }
 ```
 
