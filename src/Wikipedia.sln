@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikipedia", "Wikipedia\Wiki
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikipedia.Examples", "Wikipedia.Examples\Wikipedia.Examples.csproj", "{A8805B03-BFC9-4AD6-89C8-B52DF8FCE337}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikipedia.Tests", "Wikipedia.Tests\Wikipedia.Tests.csproj", "{6CF44102-30B8-4B6C-86AD-CFA02FEE63A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{A8805B03-BFC9-4AD6-89C8-B52DF8FCE337}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8805B03-BFC9-4AD6-89C8-B52DF8FCE337}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8805B03-BFC9-4AD6-89C8-B52DF8FCE337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF44102-30B8-4B6C-86AD-CFA02FEE63A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF44102-30B8-4B6C-86AD-CFA02FEE63A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF44102-30B8-4B6C-86AD-CFA02FEE63A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF44102-30B8-4B6C-86AD-CFA02FEE63A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

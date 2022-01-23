@@ -12,15 +12,15 @@ internal static class Program
 
         WikiSearchRequest req = new WikiSearchRequest("Albert Einstein");
         req.Limit = 5; //We would like 5 results
-        req.What = What.Text; //We would like to search inside the articles
+        req.WhatToSearch = WikiWhat.Text; //We would like to search inside the articles
 
         WikiSearchResponse resp = await client.SearchAsync(req).ConfigureAwait(false);
 
         Console.WriteLine($"Searching for {req.Query}");
         Console.WriteLine();
-        Console.WriteLine($"Found {resp.Search.Count} English results:");
+        Console.WriteLine($"Found {resp.QueryResult.SearchResults.Count} English results:");
 
-        foreach (Search s in resp.Search)
+        foreach (SearchResult s in resp.QueryResult.SearchResults)
         {
             Console.WriteLine($" - {s.Title}");
         }
@@ -29,13 +29,13 @@ internal static class Program
         Console.WriteLine();
 
         //We change the language to Spanish
-        req.Language = Language.Spanish;
+        req.WikiLanguage = WikiLanguage.Spanish;
 
         resp = await client.SearchAsync(req).ConfigureAwait(false);
 
-        Console.WriteLine($"Found {resp.Search.Count} Spanish results:");
+        Console.WriteLine($"Found {resp.QueryResult.SearchResults.Count} Spanish results:");
 
-        foreach (Search s in resp.Search)
+        foreach (SearchResult s in resp.QueryResult.SearchResults)
         {
             Console.WriteLine($" - {s.Title}");
         }

@@ -1,7 +1,7 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 
-namespace Genbox.Wikipedia.Misc;
+namespace Genbox.Wikipedia.Internal;
 
 internal static class UrlHelper
 {
@@ -16,7 +16,7 @@ internal static class UrlHelper
         {
             string escaped = Uri.EscapeUriString(c.ToString(CultureInfo.InvariantCulture));
             if (escaped.Length == 1 && escaped[0] == c)
-                yield return (byte) c;
+                yield return (byte)c;
         }
     }
 
@@ -33,7 +33,7 @@ internal static class UrlHelper
         foreach (byte symbol in Encoding.UTF8.GetBytes(data))
         {
             if (_validUrlLookup.Contains(symbol))
-                sb.Append((char) symbol);
+                sb.Append((char)symbol);
             else
                 sb.Append('%').AppendFormat(CultureInfo.InvariantCulture, "{0:X2}", symbol);
         }

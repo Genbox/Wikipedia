@@ -1,38 +1,41 @@
 # Wikipedia - An implementation of the full text search API of Wikipedia
 
 [![NuGet](https://img.shields.io/nuget/v/Genbox.Wikipedia.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/Genbox.Wikipedia/)
+[![Build](https://img.shields.io/github/workflow/status/Genbox/Wikipedia/Generic%20build?label=Build)](https://github.com/Genbox/Wikipedia/actions)
+[![Release](https://img.shields.io/github/workflow/status/Genbox/Wikipedia/Nuget%20release?label=Release)](https://github.com/Genbox/Wikipedia/actions)
+[![License](https://img.shields.io/github/license/Genbox/Wikipedia)](https://github.com/Genbox/Wikipedia/blob/master/LICENSE.txt)
 
 ### Features
 
 * Support for all 283 languages on Wikipedia
-* Full support for all search parameters
+* Support for all search parameters as of MediaWiki v1.24
 
 ### Example
 
-Here is the simplest form of getting data from Wikipedia:
+Here is the simplest way of getting data from Wikipedia:
 
 ```csharp
 static void Main()
 {
-    WikipediaClient client = new WikipediaClient();
+	using WikipediaClient client = new WikipediaClient();
 
-    //We would like to search inside articles
-    client.What = What.Text;
+	WikiSearchRequest req = new WikiSearchRequest("Albert Einstein");
+	req.Limit = 5; //We would like 5 results
 
-    QueryResult results = await client.SearchAsync("Microsoft C#");
+	WikiSearchResponse resp = await client.SearchAsync(req);
 
-    foreach (Search result in results.Search)
-    {
-        Console.WriteLine(result.Title);
-    }
+	foreach (SearchResult s in resp.QueryResult.SearchResults)
+	{
+		Console.WriteLine($" - {s.Title}");
+	}
 }
 ```
 
 Output:
 ```
-http://en.wikipedia.org/wiki/Visual C++
-http://en.wikipedia.org/wiki/Microsoft Visual C Sharp
-http://en.wikipedia.org/wiki/Microsoft Roslyn
-http://en.wikipedia.org/wiki/C Sharp (programming language)
-http://en.wikipedia.org/wiki/Microsoft Visual Studio
+ - Albert Einstein
+ - Hans Albert Einstein
+ - Einstein family
+ - Albert Brooks
+ - Albert Einstein College of Medicine
 ```

@@ -1,12 +1,11 @@
-﻿using Genbox.Wikipedia.Misc;
+﻿using Genbox.Wikipedia.Internal;
 
 namespace Genbox.Wikipedia.Enums;
 
 /// <summary>All the supported languages from Wikipedia. Source: http://meta.wikimedia.org/wiki/List_of_Wikipedias</summary>
-public enum Language
+public enum WikiLanguage
 {
     NotSet = 0,
-
     [StringValue("en")] English,
     [StringValue("de")] German,
     [StringValue("fr")] French,

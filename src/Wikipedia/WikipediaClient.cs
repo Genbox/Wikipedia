@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Genbox.Wikipedia.Enums;
-using Genbox.Wikipedia.Misc;
+using Genbox.Wikipedia.Extensions;
+using Genbox.Wikipedia.Internal;
 using Genbox.Wikipedia.Objects;
 
 namespace Genbox.Wikipedia;
@@ -26,7 +27,7 @@ public class WikipediaClient : IDisposable
     public bool UseTls { get; set; } = true;
 
     ///<summary>The default language to use. Can be overriden on each request.</summary>
-    public Language DefaultLanguage { get; set; } = Language.English;
+    public WikiLanguage DefaultLanguage { get; set; } = WikiLanguage.English;
 
     public void Dispose()
     {
@@ -47,8 +48,8 @@ public class WikipediaClient : IDisposable
 
     public async Task<WikiSearchResponse> SearchAsync(WikiSearchRequest request, CancellationToken token = default)
     {
-        if (request.Language == Language.NotSet)
-            request.Language = DefaultLanguage;
+        if (request.WikiLanguage == WikiLanguage.NotSet)
+            request.WikiLanguage = DefaultLanguage;
 
         HttpClient? client = _userClient ?? _httpClient;
 
@@ -59,40 +60,46 @@ public class WikipediaClient : IDisposable
         using HttpResponseMessage? httpResp = await client.SendAsync(httpReq, token).ConfigureAwait(false);
         using Stream? contentStream = await httpResp.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-        QueryResponse? queryResp = await JsonSerializer.DeserializeAsync<QueryResponse>(contentStream, _options, token).ConfigureAwait(false);
+        WikiSearchResponse? searchResp = await JsonSerializer.DeserializeAsync<WikiSearchResponse>(contentStream, _options, token).ConfigureAwait(false);
 
-        if (queryResp == null)
+        if (searchResp == null)
             throw new InvalidOperationException("Unable to read query response");
 
-        WikiSearchResponse? wikiSearchResponse = queryResp.Query;
+        QueryResult? query = searchResp.QueryResult;
 
         //We do this to ensure users are not bothered with nullable responses
-        if (wikiSearchResponse == null)
-            wikiSearchResponse = new WikiSearchResponse();
+        if (query == null)
+            query = new QueryResult();
 
         //For convenience, we autocreate uris that point directly to the wiki page.
         string prefix = UseTls ? "https://" : "http://";
 
-        foreach (Search? search in wikiSearchResponse.Search)
-            search.Url = new Uri(prefix + request.Language.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
+        foreach (SearchResult? search in query.SearchResults)
+            search.Url = new Uri(prefix + request.WikiLanguage.GetStringValue() + ".wikipedia.org/wiki/" + search.Title);
 
-        return wikiSearchResponse;
+        return searchResp;
     }
 
     private HttpRequestMessage CreateHttpRequest(WikiSearchRequest searchRequest)
     {
+        if (!searchRequest.TryValidate(out string? message))
+            throw new ArgumentException(message, nameof(searchRequest));
+
         //Required
         Dictionary<string, string> queryParams = new Dictionary<string, string>
                                                  {
                                                      {"action", "query"},
-                                                     {"list", "search"},
+                                                     {"list", "search"}, //See https://www.mediawiki.org/w/api.php?action=help&modules=query%2Bsearch
                                                      {"srsearch", searchRequest.Query},
-                                                     {"format", "json"}
-                                                 };
+                                                     {"format", "json"},
+                                                     {"formatversion", "2"} //See https://www.mediawiki.org/wiki/API:JSON_version_2
+        };
+
+        MapWikiMediaRequest(searchRequest, queryParams);
 
         //Optional
-        if (searchRequest.Infos.HasElements())
-            queryParams.Add("srinfo", string.Join("|", searchRequest.Infos).ToLower());
+        if (searchRequest.NamespacesToInclude != WikiNamespace.NotSet)
+            queryParams.Add("srnamespace", searchRequest.NamespacesToInclude.GetConcatValues());
 
         if (searchRequest.Limit != 0)
             queryParams.Add("srlimit", searchRequest.Limit.ToString());
@@ -100,27 +107,66 @@ public class WikipediaClient : IDisposable
         if (searchRequest.Offset != 0)
             queryParams.Add("sroffset", searchRequest.Offset.ToString());
 
-        if (searchRequest.Namespaces.HasElements())
-            queryParams.Add("srnamespace", string.Join("|", searchRequest.Namespaces).ToLower());
+        if (searchRequest.QueryIndependentProfile != WikiQueryProfile.NotSet)
+            queryParams.Add("srqiprofile", searchRequest.QueryIndependentProfile.GetStringValue());
 
-        if (searchRequest.Properties.HasElements())
-            queryParams.Add("srprop", string.Join("|", searchRequest.Properties).ToLower());
+        if (searchRequest.WhatToSearch != WikiWhat.NotSet)
+            queryParams.Add("srwhat", searchRequest.WhatToSearch.GetStringValue());
 
-        if (searchRequest.Redirects)
-            queryParams.Add("srredirects", searchRequest.Redirects.ToString().ToLower());
+        if (searchRequest.InfoToInclude != WikiInfo.NotSet)
+            queryParams.Add("srinfo", searchRequest.InfoToInclude.GetConcatValues());
 
-        if (searchRequest.What != What.Title)
-            queryParams.Add("srwhat", searchRequest.What.ToString().ToLower());
+        if (searchRequest.PropertiesToInclude != WikiProperty.NotSet)
+            queryParams.Add("srprop", searchRequest.PropertiesToInclude.GetConcatValues());
 
-        if (searchRequest.IncludeServedBy)
-            queryParams.Add("servedby", searchRequest.IncludeServedBy.ToString().ToLower());
+        if (searchRequest.IncludeInterWikiResults)
+            queryParams.Add("srinterwiki", "true");
 
-        if (searchRequest.RequestId != null)
-            queryParams.Add("requestid", searchRequest.RequestId);
+        if (searchRequest.EnableRewrites)
+            queryParams.Add("srenablerewrites", "true");
+
+        if (searchRequest.SortOrder != WikiSortOrder.NotSet)
+            queryParams.Add("srsort", searchRequest.SortOrder.GetStringValue());
 
         //API example: http://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=wikipedia&srprop=timestamp
-        Uri baseUrl = new Uri(string.Format(UseTls ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", searchRequest.Language.GetStringValue()));
+        Uri baseUrl = new Uri(string.Format(UseTls ? "https://{0}.wikipedia.org/w/" : "http://{0}.wikipedia.org/w/", searchRequest.WikiLanguage.GetStringValue()));
 
         return new HttpRequestMessage(HttpMethod.Get, new Uri(baseUrl, "api.php?" + UrlHelper.CreateQueryString(queryParams)));
+    }
+
+    private void MapWikiMediaRequest(WikiMediaRequest request, Dictionary<string, string> queryParams)
+    {
+        if (request.Assert != null)
+            queryParams.Add("assert", request.Assert);
+
+        if (request.AssertUser != null)
+            queryParams.Add("assertuser", request.AssertUser);
+
+        if (request.ErrorFormat != WikiErrorFormat.NotSet)
+            queryParams.Add("errorformat", request.ErrorFormat.GetStringValue());
+
+        if (request.ErrorLanguageToUse != null)
+            queryParams.Add("errorlang", request.ErrorLanguageToUse);
+
+        if (request.ErrorUseLocalLanguage)
+            queryParams.Add("errorsuselocal", "true");
+
+        if (request.IncludeCurrentTimestamp)
+            queryParams.Add("curtimestamp", "true");
+
+        if (request.IncludeLanguageUsed)
+            queryParams.Add("responselanginfo", "true");
+
+        if (request.IncludeServedBy)
+            queryParams.Add("servedby", "true");
+
+        if (request.LanguageToUse != null)
+            queryParams.Add("uselang", request.LanguageToUse);
+
+        if (request.LanguageVariant != null)
+            queryParams.Add("variant", request.LanguageVariant);
+
+        if (request.RequestId != null)
+            queryParams.Add("requestid", request.RequestId);
     }
 }
